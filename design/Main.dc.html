@@ -1,0 +1,417 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; background: #f9f9f7; color: #0b0b0b;
+           font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+           font-size: 14px; line-height: 1.5; }
+    a { color: #2a78d6; } a:hover { color: #1c5cab; }
+    table { border-collapse: collapse; }
+  </style>
+</helmet>
+<div style="max-width: 1280px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; background: #f9f9f7">
+
+  <sc-if value="{{normalMode}}" hint-placeholder-val="{{ true }}">
+  <div style="background: #fcfcfb; border: 1px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+    <div style="min-width: 150px">
+      <div style="color: #898781; font-size: 12px">執行時間</div>
+      <div style="font-size: 15px; font-weight: 650">2026-08-20 14:32 台北</div>
+    </div>
+    <div style="min-width: 130px">
+      <div style="color: #898781; font-size: 12px">帳戶淨值（TWD）</div>
+      <div style="font-size: 20px; font-weight: 650">10,000,000</div>
+    </div>
+    <div style="min-width: 150px">
+      <div style="color: #898781; font-size: 12px">總曝險 / 上限 20%</div>
+      <div style="font-size: 20px; font-weight: 650">1.4%</div>
+      <div style="height: 6px; background: #e1e0d9; border-radius: 4px; margin-top: 4px; overflow: hidden">
+        <div style="width: 7%; height: 100%; border-radius: 4px; background: #2a78d6"></div>
+      </div>
+    </div>
+    <div style="min-width: 110px">
+      <div style="color: #898781; font-size: 12px">當前回撤</div>
+      <div style="font-size: 20px; font-weight: 650">1.8%</div>
+    </div>
+    <div style="min-width: 130px">
+      <div style="color: #898781; font-size: 12px">全域狀態</div>
+      <div style="font-size: 20px; font-weight: 650">正常</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{alertMode}}" hint-placeholder-val="{{ false }}">
+  <div style="background: #f9edeb; border: 2px solid #d03b3b; border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+    <div style="min-width: 150px">
+      <div style="color: #898781; font-size: 12px">執行時間</div>
+      <div style="font-size: 15px; font-weight: 650">2026-08-20 14:32 台北</div>
+    </div>
+    <div style="min-width: 130px">
+      <div style="color: #898781; font-size: 12px">帳戶淨值（TWD）</div>
+      <div style="font-size: 20px; font-weight: 650">10,000,000</div>
+    </div>
+    <div style="min-width: 150px">
+      <div style="color: #898781; font-size: 12px">總曝險 / 上限 20%</div>
+      <div style="font-size: 20px; font-weight: 650">1.4%</div>
+      <div style="height: 6px; background: #e1e0d9; border-radius: 4px; margin-top: 4px; overflow: hidden">
+        <div style="width: 7%; height: 100%; border-radius: 4px; background: #2a78d6"></div>
+      </div>
+    </div>
+    <div style="min-width: 110px">
+      <div style="color: #898781; font-size: 12px">當前回撤</div>
+      <div style="font-size: 20px; font-weight: 650; color: #d03b3b">11.2%</div>
+    </div>
+    <div style="min-width: 220px">
+      <div style="color: #898781; font-size: 12px">全域狀態</div>
+      <div style="font-size: 20px; font-weight: 650; color: #d03b3b">觀察模式（暫停新開倉）</div>
+      <div style="font-size: 12px; color: #52514e">drawdown 11.2% &gt; 10.0%</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 650">
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: #0ca30c"></span>
+        <span>核准</span>
+        <span style="font-size: 12px; font-weight: 400; background: #e1e0d9; border-radius: 10px; padding: 1px 9px">1</span>
+      </div>
+
+      <div style="background: #fcfcfb; border: 1px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <div style="display: flex; gap: 6px; align-items: baseline">
+            <span style="font-size: 15px; font-weight: 650">2330 台積電</span>
+            <span style="font-size: 11px; color: #52514e; background: #e1e0d9; padding: 1px 8px; border-radius: 8px">TW</span>
+            <span style="font-size: 11px; color: #52514e; background: #e1e0d9; padding: 1px 8px; border-radius: 8px">breakout</span>
+          </div>
+          <span style="font-size: 22px; font-weight: 700">72</span>
+        </div>
+        <div>
+          <div style="display: flex; gap: 2px; height: 8px; border-radius: 4px; overflow: hidden; background: #e1e0d9">
+            <span style="width: 41%; background: #2a78d6"></span>
+            <span style="width: 31%; background: #1baf7a"></span>
+          </div>
+          <div style="display: flex; gap: 12px; font-size: 11px; color: #898781; margin-top: 2px">
+            <span style="display: flex; gap: 4px; align-items: center"><i style="width: 8px; height: 8px; border-radius: 2px; background: #2a78d6"></i>edge 68 × 0.6</span>
+            <span style="display: flex; gap: 4px; align-items: center"><i style="width: 8px; height: 8px; border-radius: 2px; background: #1baf7a"></i>setup 78 × 0.4</span>
+          </div>
+        </div>
+        <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+          <tr style="color: #898781">
+            <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">回測</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">n</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">勝率</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">期望值</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">in-sample</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">holdout</th>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">breakout</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">34</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">41.0%</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.31R</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.35R</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.19R</td>
+          </tr>
+        </table>
+        <svg width="100%" viewBox="0 0 300 110" role="img" aria-label="2330 120 日價格走勢">
+          <rect x="0" y="40.9" width="300" height="2.9" fill="#1baf7a" opacity="0.18"></rect>
+          <line x1="0" x2="300" y1="55.2" y2="55.2" stroke="#d03b3b" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <line x1="0" x2="300" y1="5.1" y2="5.1" stroke="#0ca30c" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <polyline points="0.0,88.7 2.5,85.6 5.0,82.8 7.6,83.6 10.1,83.9 12.6,84.8 15.1,83.3 17.6,83.1 20.2,81.3 22.7,84.9 25.2,81.3 27.7,81.3 30.3,79.5 32.8,79.6 35.3,80.1 37.8,78.8 40.3,76.8 42.9,76.9 45.4,77.0 47.9,75.2 50.4,76.8 52.9,79.8 55.5,78.7 58.0,79.9 60.5,83.7 63.0,85.1 65.5,85.9 68.1,88.1 70.6,90.9 73.1,90.5 75.6,88.4 78.2,88.6 80.7,89.9 83.2,88.9 85.7,87.1 88.2,87.5 90.8,86.1 93.3,83.6 95.8,83.8 98.3,85.2 100.8,84.2 103.4,83.5 105.9,80.8 108.4,83.3 110.9,84.4 113.4,85.9 116.0,89.2 118.5,88.7 121.0,87.4 123.5,88.6 126.1,85.5 128.6,83.5 131.1,81.9 133.6,80.8 136.1,78.4 138.7,81.0 141.2,79.4 143.7,77.9 146.2,81.4 148.7,80.4 151.3,80.6 153.8,78.7 156.3,79.4 158.8,79.1 161.3,78.1 163.9,79.7 166.4,78.2 168.9,78.1 171.4,76.8 173.9,77.6 176.5,75.0 179.0,73.3 181.5,73.5 184.0,71.8 186.6,68.6 189.1,64.2 191.6,67.6 194.1,65.2 196.6,63.9 199.2,63.8 201.7,65.8 204.2,62.6 206.7,65.2 209.2,63.6 211.8,60.3 214.3,63.7 216.8,64.1 219.3,66.9 221.8,66.0 224.4,62.2 226.9,57.1 229.4,61.0 231.9,62.1 234.5,60.1 237.0,56.0 239.5,54.7 242.0,56.2 244.5,55.2 247.1,54.9 249.6,55.1 252.1,56.6 254.6,55.3 257.1,54.3 259.7,54.2 262.2,54.4 264.7,57.2 267.2,58.1 269.7,54.9 272.3,55.0 274.8,58.2 277.3,54.7 279.8,53.1 282.4,47.5 284.9,47.0 287.4,47.9 289.9,51.2 292.4,47.6 295.0,40.7 297.5,42.5 300.0,43.8" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"></polyline>
+          <text x="0" y="108" font-size="9" fill="#898781">— 價格　▨ 進場區間　╌ 停損（紅）/ 目標（綠）</text>
+        </svg>
+        <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">進場區間</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,180.00 ~ 1,195.00</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">停損</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,122.00</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">目標</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,377.00</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">RR</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">2.49</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">建議股數</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,000</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">部位市值</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,195,000</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">風險金額</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">73,000（0.73%）</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">預計持有</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">9 天</td>
+          </tr>
+        </table>
+        <div style="border-left: 4px solid #4a3aa7; background: #f4f2fa; padding: 8px 10px; border-radius: 0 8px 8px 0; font-size: 12.5px">
+          <div style="color: #4a3aa7; font-weight: 650; font-size: 11px; letter-spacing: 0.04em">失效條件（≠ 停損：邏輯前提不成立就出場）</div>
+          連續 2 根收盤跌回突破前箱體上緣 1,165.00 以下
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>position_size</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>total_risk</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>correlation</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>drawdown</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>volatility</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>min_risk_reward</span>
+        </div>
+        <div style="font-size: 12.5px; color: #52514e; border-top: 1px dashed #e1e0d9; padding-top: 8px">定性層未啟用</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 650">
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: #fab219"></span>
+        <span>觀察</span>
+        <span style="font-size: 12px; font-weight: 400; background: #e1e0d9; border-radius: 10px; padding: 1px 9px">1</span>
+      </div>
+
+      <div style="background: #fcfcfb; border: 1px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <div style="display: flex; gap: 6px; align-items: baseline">
+            <span style="font-size: 15px; font-weight: 650">2454 聯發科</span>
+            <span style="font-size: 11px; color: #52514e; background: #e1e0d9; padding: 1px 8px; border-radius: 8px">TW</span>
+            <span style="font-size: 11px; color: #52514e; background: #e1e0d9; padding: 1px 8px; border-radius: 8px">pullback</span>
+          </div>
+          <span style="font-size: 22px; font-weight: 700">45</span>
+        </div>
+        <div>
+          <div style="display: flex; gap: 2px; height: 8px; border-radius: 4px; overflow: hidden; background: #e1e0d9">
+            <span style="width: 43%; background: #2a78d6"></span>
+            <span style="width: 32%; background: #1baf7a"></span>
+          </div>
+          <div style="display: flex; gap: 12px; font-size: 11px; color: #898781; margin-top: 2px">
+            <span style="display: flex; gap: 4px; align-items: center"><i style="width: 8px; height: 8px; border-radius: 2px; background: #2a78d6"></i>edge 72 × 0.6</span>
+            <span style="display: flex; gap: 4px; align-items: center"><i style="width: 8px; height: 8px; border-radius: 2px; background: #1baf7a"></i>setup 80 × 0.4</span>
+          </div>
+        </div>
+        <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+          <tr style="color: #898781">
+            <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">回測</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">n</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">勝率</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">期望值</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">in-sample</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">holdout</th>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">pullback</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">13</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">53.8%</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.44R</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.52R</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.21R</td>
+          </tr>
+        </table>
+        <div style="color: #ec835a; font-weight: 650; font-size: 12px">樣本不足 n&lt;15 — 分數上限 45，本輪最多列入觀察</div>
+        <svg width="100%" viewBox="0 0 300 110" role="img" aria-label="2454 120 日價格走勢">
+          <rect x="0" y="27.9" width="300" height="2.1" fill="#1baf7a" opacity="0.18"></rect>
+          <line x1="0" x2="300" y1="40.0" y2="40.0" stroke="#d03b3b" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <line x1="0" x2="300" y1="5.1" y2="5.1" stroke="#0ca30c" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <polyline points="0.0,86.2 2.5,88.0 5.0,90.0 7.6,90.9 10.1,88.3 12.6,90.8 15.1,89.0 17.6,86.7 20.2,87.1 22.7,88.1 25.2,87.2 27.7,84.9 30.3,81.0 32.8,79.3 35.3,76.2 37.8,76.8 40.3,78.2 42.9,81.0 45.4,82.9 47.9,83.3 50.4,82.8 52.9,84.8 55.5,83.3 58.0,83.2 60.5,84.2 63.0,85.3 65.5,81.6 68.1,81.1 70.6,82.5 73.1,84.0 75.6,80.6 78.2,81.4 80.7,79.1 83.2,76.4 85.7,80.3 88.2,77.7 90.8,77.9 93.3,79.7 95.8,80.4 98.3,79.2 100.8,78.4 103.4,77.4 105.9,78.5 108.4,76.0 110.9,73.1 113.4,69.5 116.0,67.4 118.5,63.6 121.0,59.3 123.5,57.7 126.1,55.7 128.6,54.3 131.1,52.9 133.6,50.9 136.1,54.2 138.7,54.6 141.2,53.4 143.7,57.5 146.2,60.1 148.7,56.7 151.3,58.6 153.8,59.3 156.3,58.4 158.8,59.1 161.3,60.6 163.9,61.4 166.4,62.0 168.9,62.9 171.4,62.4 173.9,59.0 176.5,58.1 179.0,54.6 181.5,52.8 184.0,50.9 186.6,49.4 189.1,49.8 191.6,48.7 194.1,47.8 196.6,49.9 199.2,48.1 201.7,46.7 204.2,45.7 206.7,46.6 209.2,51.9 211.8,48.6 214.3,48.6 216.8,52.9 219.3,51.3 221.8,52.5 224.4,50.9 226.9,50.8 229.4,48.2 231.9,47.5 234.5,46.7 237.0,46.1 239.5,43.3 242.0,45.8 244.5,43.1 247.1,41.3 249.6,42.3 252.1,42.1 254.6,42.8 257.1,42.4 259.7,40.1 262.2,41.4 264.7,39.5 267.2,37.2 269.7,35.5 272.3,31.7 274.8,31.7 277.3,29.8 279.8,23.7 282.4,23.4 284.9,23.5 287.4,23.2 289.9,21.6 292.4,22.8 295.0,23.1 297.5,27.0 300.0,29.2" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"></polyline>
+          <text x="0" y="108" font-size="9" fill="#898781">— 價格　▨ 進場區間　╌ 停損（紅）/ 目標（綠）</text>
+        </svg>
+        <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">進場區間</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,265.00 ~ 1,278.00</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">停損</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,205.00</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">目標</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,415.00</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">RR</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1.88</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">建議股數</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,000</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">部位市值</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,278,000</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">風險金額</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">73,000（0.73%）</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">預計持有</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">7 天</td>
+          </tr>
+        </table>
+        <div style="border-left: 4px solid #4a3aa7; background: #f4f2fa; padding: 8px 10px; border-radius: 0 8px 8px 0; font-size: 12.5px">
+          <div style="color: #4a3aa7; font-weight: 650; font-size: 11px; letter-spacing: 0.04em">失效條件（≠ 停損：邏輯前提不成立就出場）</div>
+          收盤跌破回檔起算的 swing low 1,238.00，或 SMA50 跌破 SMA200
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>position_size</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>total_risk</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>correlation</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>drawdown</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>volatility</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>min_risk_reward</span>
+        </div>
+        <div style="font-size: 12.5px; color: #52514e; border-top: 1px dashed #e1e0d9; padding-top: 8px">定性層未啟用</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 650">
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: #d03b3b"></span>
+        <span>拒絕</span>
+        <span style="font-size: 12px; font-weight: 400; background: #e1e0d9; border-radius: 10px; padding: 1px 9px">1</span>
+      </div>
+
+      <div style="background: #fcfcfb; border: 1px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <div style="display: flex; gap: 6px; align-items: baseline">
+            <span style="font-size: 15px; font-weight: 650">2317 鴻海</span>
+            <span style="font-size: 11px; color: #52514e; background: #e1e0d9; padding: 1px 8px; border-radius: 8px">TW</span>
+            <span style="font-size: 11px; color: #52514e; background: #e1e0d9; padding: 1px 8px; border-radius: 8px">trend_continuation</span>
+          </div>
+          <span style="font-size: 22px; font-weight: 700">58</span>
+        </div>
+        <div>
+          <div style="display: flex; gap: 2px; height: 8px; border-radius: 4px; overflow: hidden; background: #e1e0d9">
+            <span style="width: 31%; background: #2a78d6"></span>
+            <span style="width: 27%; background: #1baf7a"></span>
+          </div>
+          <div style="display: flex; gap: 12px; font-size: 11px; color: #898781; margin-top: 2px">
+            <span style="display: flex; gap: 4px; align-items: center"><i style="width: 8px; height: 8px; border-radius: 2px; background: #2a78d6"></i>edge 52 × 0.6</span>
+            <span style="display: flex; gap: 4px; align-items: center"><i style="width: 8px; height: 8px; border-radius: 2px; background: #1baf7a"></i>setup 68 × 0.4</span>
+          </div>
+        </div>
+        <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+          <tr style="color: #898781">
+            <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">回測</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">n</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">勝率</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">期望值</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">in-sample</th>
+            <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">holdout</th>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">trend_continuation</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">21</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">47.6%</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.18R</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.22R</td>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">0.09R</td>
+          </tr>
+        </table>
+        <svg width="100%" viewBox="0 0 300 110" role="img" aria-label="2317 120 日價格走勢">
+          <rect x="0" y="40.9" width="300" height="4.5" fill="#1baf7a" opacity="0.18"></rect>
+          <line x1="0" x2="300" y1="66.3" y2="66.3" stroke="#d03b3b" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <line x1="0" x2="300" y1="5.1" y2="5.1" stroke="#0ca30c" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <polyline points="0.0,86.3 2.5,87.9 5.0,85.8 7.6,85.5 10.1,90.2 12.6,86.9 15.1,87.0 17.6,84.8 20.2,78.8 22.7,77.7 25.2,81.0 27.7,82.9 30.3,79.5 32.8,83.9 35.3,82.9 37.8,81.5 40.3,84.9 42.9,84.2 45.4,82.2 47.9,84.5 50.4,85.8 52.9,83.9 55.5,87.8 58.0,90.3 60.5,87.1 63.0,86.7 65.5,90.9 68.1,90.6 70.6,84.4 73.1,88.9 75.6,86.2 78.2,83.6 80.7,83.9 83.2,81.8 85.7,83.8 88.2,78.6 90.8,72.9 93.3,75.5 95.8,76.0 98.3,75.4 100.8,77.2 103.4,75.8 105.9,79.0 108.4,76.9 110.9,77.7 113.4,77.6 116.0,75.9 118.5,72.7 121.0,75.7 123.5,72.9 126.1,69.8 128.6,70.0 131.1,64.6 133.6,67.0 136.1,68.6 138.7,67.1 141.2,69.1 143.7,64.3 146.2,63.4 148.7,57.3 151.3,60.7 153.8,63.7 156.3,59.0 158.8,62.3 161.3,58.4 163.9,61.0 166.4,59.8 168.9,55.6 171.4,55.6 173.9,59.3 176.5,60.8 179.0,56.6 181.5,55.8 184.0,53.1 186.6,52.5 189.1,51.3 191.6,51.7 194.1,55.0 196.6,52.9 199.2,52.0 201.7,58.7 204.2,58.4 206.7,54.8 209.2,47.8 211.8,52.4 214.3,51.7 216.8,49.5 219.3,46.6 221.8,48.8 224.4,46.8 226.9,48.0 229.4,48.0 231.9,49.6 234.5,48.3 237.0,49.4 239.5,48.1 242.0,48.2 244.5,44.7 247.1,38.3 249.6,38.4 252.1,40.8 254.6,41.4 257.1,43.1 259.7,48.8 262.2,48.4 264.7,49.9 267.2,46.5 269.7,46.7 272.3,43.2 274.8,40.1 277.3,41.7 279.8,42.7 282.4,44.3 284.9,45.7 287.4,42.5 289.9,44.2 292.4,45.4 295.0,48.1 297.5,42.8 300.0,43.9" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"></polyline>
+          <text x="0" y="108" font-size="9" fill="#898781">— 價格　▨ 進場區間　╌ 停損（紅）/ 目標（綠）</text>
+        </svg>
+        <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">進場區間</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">218.00 ~ 221.00</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">停損</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">204.00</td>
+          </tr>
+          <tr>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">目標</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">245.00</td>
+            <th style="text-align: left; font-weight: 500; color: #898781; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">RR</th>
+            <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9; color: #d03b3b; font-weight: 650">1.41</td>
+          </tr>
+        </table>
+        <div style="border-left: 4px solid #4a3aa7; background: #f4f2fa; padding: 8px 10px; border-radius: 0 8px 8px 0; font-size: 12.5px">
+          <div style="color: #4a3aa7; font-weight: 650; font-size: 11px; letter-spacing: 0.04em">失效條件（≠ 停損：邏輯前提不成立就出場）</div>
+          SMA20 跌破 SMA50
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>position_size</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>total_risk</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>correlation</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>drawdown</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #006300; background: #eef6ee"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>volatility</span>
+          <span style="display: flex; gap: 4px; align-items: center; font-size: 11px; padding: 2px 9px; border-radius: 10px; border: 1px solid rgba(11,11,11,0.10); color: #d03b3b; background: #faeceb; font-weight: 650"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M4 4 12 12 M12 4 4 12" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"></path></svg>min_risk_reward：1.41 / 限 1.80</span>
+        </div>
+        <div style="font-size: 12px; color: #52514e">阻擋原因：min_risk_reward</div>
+        <div style="font-size: 12.5px; color: #52514e; border-top: 1px dashed #e1e0d9; padding-top: 8px">定性層未啟用</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background: #fcfcfb; border: 1px solid #ec835a; border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+    <div style="font-size: 15px; font-weight: 650; color: #ec835a">需要人工確認（ABSTAIN）</div>
+    <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+      <tr style="color: #898781">
+        <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">標的</th>
+        <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">市場</th>
+        <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">原因</th>
+        <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">資料源</th>
+      </tr>
+      <tr>
+        <td style="text-align: left; font-weight: 650; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">NVDA</td>
+        <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">US</td>
+        <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">data_source_failure（重試 2 次仍失敗）</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">yfinance</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; font-weight: 650; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">MSFT</td>
+        <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">US</td>
+        <td style="text-align: left; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">stale_data（最新 K 距今 7 個交易日）</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">yfinance</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="background: #fcfcfb; border: 1px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+    <div style="font-size: 15px; font-weight: 650">持倉與待執行計畫監控</div>
+    <table style="width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums">
+      <tr style="color: #898781">
+        <th style="text-align: left; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">標的</th>
+        <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">進場</th>
+        <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">停損</th>
+        <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">距停損</th>
+        <th style="text-align: right; font-weight: 500; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">已持有 / 狀態</th>
+      </tr>
+      <tr>
+        <td style="text-align: left; font-weight: 650; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">AMD（持倉）</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">162.40</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">148.80</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">8.2%</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">6 天 / 預計 11 天</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; font-weight: 650; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">2454（計畫 WATCH）</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,265 ~ 1,278</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9">1,205.00</td>
+        <td style="text-align: right; padding: 3px 6px; border-bottom: 1px solid #e1e0d9" colspan="2">有效：失效條件未成立（2026-08-25 到期）</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 18px; color: #898781; font-size: 12px">
+    <span>掃描標的 6</span>
+    <span>觸發訊號 3</span>
+    <span>LLM 呼叫 0 次（定性層未啟用）</span>
+    <span>資料源：finmind, yfinance</span>
+    <span>run_id: 20260820T2140Z-a3f1</span>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"alertMode":{"editor":"boolean","default":false,"section":"全域狀態"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const alert = this.props.alertMode ?? false;
+    return { alertMode: alert, normalMode: !alert };
+  }
+}
+</script>
+</body>
+</html>

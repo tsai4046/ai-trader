@@ -8,3 +8,4 @@ data/outcomes.jsonl
 data/cron.log
 out/*.html
 .env
+design/ai-trader-dashboard.html
