@@ -1,0 +1,8 @@
+us:
+  - {symbol: NVDA, sector: semiconductor}
+  - {symbol: AMD,  sector: semiconductor}
+  - {symbol: MSFT, sector: software}
+tw:
+  - {symbol: "2330", name: 台積電, sector: semiconductor}
+  - {symbol: "2454", name: 聯發科, sector: semiconductor}
+  - {symbol: "2317", name: 鴻海,   sector: hardware}

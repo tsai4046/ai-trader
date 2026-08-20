@@ -1,0 +1,65 @@
+account:
+  equity: 1000000          # 帳戶淨值
+  currency: TWD            # TWD | USD；美股台股混用時請自行統一計價幣別
+  allow_odd_lot: false     # 台股是否允許零股；false 時部位無條件捨去到 1000 股
+
+markets:
+  us:
+    enabled: true
+    provider: yfinance
+    symbols_from: watchlist.yaml
+  tw:
+    enabled: true
+    provider: finmind
+    finmind_token_env: FINMIND_TOKEN   # 從環境變數讀，不准寫進 config
+
+data:
+  lookback_days: 500       # 抓多久的歷史（回測需要）
+  interval: 1d
+  cache_ttl_hours: 12
+  min_bars_required: 250   # 少於此值 → ABSTAIN
+  max_staleness_days: 5    # 最新一根 K 距今超過此天數 → ABSTAIN
+
+signals:
+  enabled_detectors: [breakout, pullback, momentum, trend_continuation]
+  # reversal 預設關閉：逆勢型態勝率低，要開請自己回測過再說
+  min_samples: 15          # 回測樣本數門檻，低於此值分數上限 45
+  approve_score: 60        # >= 此分數才有資格進 APPROVE
+  watch_score: 40          # >= 此分數為 WATCH，低於則 REJECT
+  edge_weight: 0.6         # 最終分數 = edge_weight*edge + (1-edge_weight)*setup
+
+backtest:
+  horizon_bars: 20         # 最長持有幾根 K
+  rr_target: 2.5           # 回測時的目標倍數（R）
+  atr_stop_mult: 2.0       # 停損距離 = N * ATR(14)
+  holdout_frac: 0.25       # 最近 25% 資料當 out-of-sample
+  decay_penalty: 0.6       # holdout 表現轉負時，分數乘上此係數
+  shrinkage_k: 20          # 期望值收縮強度
+
+risk:
+  max_risk_per_trade_pct: 1.0    # 單筆最大虧損佔淨值 %
+  max_total_risk_pct: 20.0       # 所有持倉風險總和上限 %
+  max_position_pct: 25.0         # 單一部位市值佔淨值上限 %
+  max_daily_loss_pct: 3.0        # 當日已實現虧損達此值 → 停止新開倉
+  max_drawdown_pct: 10.0         # 權益曲線回撤達此值 → 全域進入觀察模式
+  min_risk_reward: 1.8           # RR 低於此值直接 REJECT
+  correlation_threshold: 0.7     # 60 日日報酬相關係數
+  max_correlated_positions: 2    # 相關係數超標的持倉最多幾檔
+  atr_spike_halve: 2.0           # ATR / ATR 60日中位數 > 此值 → 部位砍半
+  atr_spike_reject: 3.0          # > 此值 → 直接 REJECT
+
+plan:
+  ttl_days: 5              # 計畫未進場的有效天數，逾期作廢
+  target_rr: 2.5           # 實際計畫的目標 RR
+
+llm:
+  enabled: false           # 預設關閉；先把規則層跑穩再開
+  provider: anthropic
+  model: claude-sonnet-4-5
+  api_key_env: ANTHROPIC_API_KEY
+  max_candidates: 5        # 每輪最多對幾個候選呼叫 LLM（成本控制）
+
+output:
+  html_dir: out
+  journal_path: data/journal.jsonl
+  outcomes_path: data/outcomes.jsonl
