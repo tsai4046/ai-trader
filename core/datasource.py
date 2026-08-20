@@ -146,7 +146,8 @@ class YFinanceProvider:
         import yfinance as yf
 
         yf_interval = {"1d": "1d", "60m": "60m"}[interval]
-        raw = yf.download(symbol, period=f"{lookback_days}d", interval=yf_interval,
+        start = (pd.Timestamp.today() - pd.Timedelta(days=int(lookback_days * 1.6))).date()
+        raw = yf.download(symbol, start=str(start), interval=yf_interval,
                           auto_adjust=True, progress=False)
         if raw is None or raw.empty:
             return pd.DataFrame(columns=REQUIRED_COLUMNS, index=pd.DatetimeIndex([]))

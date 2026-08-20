@@ -1,6 +1,10 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.venv/
 data/cache/
+data/journal.jsonl
+data/outcomes.jsonl
+data/cron.log
 out/*.html
 .env
