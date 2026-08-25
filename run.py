@@ -13,11 +13,18 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import sys
 from dataclasses import asdict
 from datetime import datetime
+from pathlib import Path
 
 import pandas as pd
+
+# 排程器（cron / schtasks）啟動時的工作目錄不一定在專案根目錄；
+# 目前目錄沒有 config.yaml 時才退回 run.py 所在目錄（保留「在任意工作副本目錄執行」的用法）。
+if not Path("config.yaml").exists():
+    os.chdir(Path(__file__).resolve().parent)
 
 log = logging.getLogger("ai-trader")
 
