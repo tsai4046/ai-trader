@@ -1,4 +1,4 @@
-# 本地部署（Windows PowerShell）：建 venv、裝依賴、跑測試、離線驗證一輪。
+﻿# 本地部署（Windows PowerShell）：建 venv、裝依賴、跑測試、離線驗證一輪。
 # 若被執行原則擋下，先跑：Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
