@@ -20,10 +20,16 @@
 ## 安裝
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python -m pytest            # 全綠才算環境正常
+./setup.sh        # macOS / Linux 一鍵：建 venv、裝依賴、跑測試、離線驗證一輪
 ```
+
+Windows（PowerShell）：
+
+```powershell
+.\setup.ps1       # 同上；結尾會印出工作排程器（schtasks）的排程指令
+```
+
+或手動：`python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python -m pytest`
 
 ## FinMind token 設定（台股）
 
