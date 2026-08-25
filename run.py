@@ -414,34 +414,26 @@ def cmd_monitor(args) -> int:
 
 
 def cmd_close(args) -> int:
-    from core.journal import append_outcome, read_jsonl
+    from core.manage import close_holding
 
     cfg = _load_cfg()
-    journal = read_jsonl(cfg.output.journal_path)
-    rec = next((r for r in journal if r["run_id"] == args.run_id and r.get("plan")), None)
-    if rec is None:
-        print(f"journal 找不到 run_id={args.run_id}", file=sys.stderr)
+    try:
+        r = close_holding(cfg, args.run_id, args.exit_price,
+                          exit_date=args.exit_date, reason=args.reason,
+                          notes=args.notes)
+    except ValueError as e:
+        print(str(e), file=sys.stderr)
         return 1
-    outcomes = read_jsonl(cfg.output.outcomes_path)
-    opened = next((o for o in reversed(outcomes)
-                   if o.get("run_id") == args.run_id and o.get("state") == "OPEN"), None)
-    plan = rec["plan"]
-    entry = float(opened["entry_price"]) if opened else float(plan["entry_high"])
-    shares = int(opened.get("shares") or (rec.get("risk") or {}).get("shares") or 0) \
-        if opened else int((rec.get("risk") or {}).get("shares") or 0)
-    stop = float(plan["stop"])
-    risk_per_share = entry - stop
-    r_multiple = (args.exit_price - entry) / risk_per_share if risk_per_share > 0 else 0.0
-    pnl = (args.exit_price - entry) * shares
-    append_outcome(cfg, {
-        "run_id": args.run_id, "symbol": rec["symbol"], "state": "CLOSED",
-        "entry_price": entry, "exit_price": args.exit_price,
-        "exit_date": args.exit_date, "r_multiple": round(r_multiple, 4),
-        "pnl": round(pnl, 2), "exit_reason": args.reason or "manual",
-        "shares": shares, "stop": stop, "notes": args.notes or "",
-    })
-    print(f"已回填 {rec['symbol']}: exit {args.exit_price} → "
-          f"{r_multiple:+.2f}R, pnl {pnl:,.0f}")
+    print(f"已回填 {r['symbol']}: exit {r['exit_price']} → "
+          f"{r['r_multiple']:+.2f}R, pnl {r['pnl']:,.0f}")
+    return 0
+
+
+def cmd_serve(args) -> int:
+    from core.webui import serve
+
+    _load_cfg()   # 先驗證 config，錯誤直接退出
+    serve(port=args.port, open_browser=not args.no_browser)
     return 0
 
 
@@ -555,6 +547,11 @@ def main(argv=None) -> int:
 
     st = sub.add_parser("stats", help="從 journal + outcomes 產出績效統計")
     st.set_defaults(fn=cmd_stats)
+
+    sv = sub.add_parser("serve", help="啟動本機管理台（追蹤清單 / 庫存 / 掃描）")
+    sv.add_argument("--port", type=int, default=8787)
+    sv.add_argument("--no-browser", action="store_true", help="不自動開瀏覽器")
+    sv.set_defaults(fn=cmd_serve)
 
     args = p.parse_args(argv)
     return args.fn(args)

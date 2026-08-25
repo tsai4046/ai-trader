@@ -53,3 +53,15 @@
 17. **監控紀錄沿用原 run_id** 寫入 `INVALIDATED` / `EXPIRED`：同一 run_id 的最新一筆代表該計畫的
     目前狀態，方便重建。
 18. **匯率**：台美混市時曝險計算不換匯（config 的 `currency` 只是計價標記），限制已寫進 README。
+
+## 管理台（v1 之後應使用者要求追加）
+
+19. **`run.py serve` 本機管理台**：規格 v1 只定義 cron + HTML，管理台是後續需求。
+    純標準庫、只綁 127.0.0.1、無驗證；追蹤清單寫 watchlist.yaml、庫存寫 outcomes.jsonl，
+    與 CLI 共用 `core/manage.py` 的同一套邏輯。
+20. **程式改寫 watchlist.yaml 會失去手寫註解**（yaml.safe_dump 不保留 comment），
+    內容欄位（symbol/name/sector）完整保留。
+21. **手動持倉的停損必填**：風險金額 =（進場 − 停損）× 股數 是 Gate 2 的依據；
+    允許無停損會讓總曝險計算失真（0 低估、全額高估都不對），乾脆強制。
+22. **手動持倉 run_id 以 `manual-` 開頭**、不要求 journal 對應紀錄；
+    `close`（CLI 與網頁）對兩種持倉都能平倉。
