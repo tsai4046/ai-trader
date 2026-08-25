@@ -3,15 +3,27 @@
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
-# 找 Python（優先 py launcher）
+# 找 Python（優先 py launcher）。注意：Windows 內建的 python.exe 可能是
+# Microsoft Store 的假捷徑，執行 --version 會失敗，要驗證後才算數。
+$installHint = "請先安裝 Python 3.11+：winget install Python.Python.3.12，" +
+               "或到 https://www.python.org/downloads/ 下載（勾選 Add python.exe to PATH），裝完重開 PowerShell"
 $python = $null
-if (Get-Command py -ErrorAction SilentlyContinue) { $python = "py"; $pyArgs = @("-3") }
-elseif (Get-Command python -ErrorAction SilentlyContinue) { $python = "python"; $pyArgs = @() }
-else { Write-Error "找不到 Python，請先安裝 3.11+（https://www.python.org/downloads/，記得勾 Add to PATH）" }
+foreach ($cand in @(@("py", @("-3")), @("python", @()))) {
+    if (Get-Command $cand[0] -ErrorAction SilentlyContinue) {
+        $ver = & $cand[0] @($cand[1]) --version 2>&1
+        if ($LASTEXITCODE -eq 0 -and "$ver" -match "^Python 3") {
+            $python = $cand[0]; $pyArgs = $cand[1]
+            Write-Host "==> 使用 $ver"
+            break
+        }
+    }
+}
+if (-not $python) { Write-Error "找不到可用的 Python（PATH 上的可能是 Microsoft Store 假捷徑）。$installHint" }
 
 Write-Host "==> 建立虛擬環境 .venv"
 & $python @pyArgs -m venv .venv
 $venvPy = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+if (-not (Test-Path $venvPy)) { Write-Error "虛擬環境建立失敗（$venvPy 不存在）。$installHint" }
 
 Write-Host "==> 安裝依賴"
 & $venvPy -m pip install --quiet --upgrade pip
