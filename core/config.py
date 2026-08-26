@@ -51,7 +51,12 @@ class DataCfg(StrictModel):
     max_staleness_days: int = Field(ge=0)
 
 
-VALID_DETECTORS = {"breakout", "pullback", "momentum", "trend_continuation", "reversal"}
+VALID_DETECTORS = {
+    "breakout", "pullback", "momentum", "trend_continuation", "reversal",
+    # 研究引入（docs/strategy-research.md），預設不啟用：先 evaluate 過再開
+    "rsi2_pullback", "double_seven", "week52_breakout",
+    "donchian55_breakout", "adx_trend", "squeeze_breakout",
+}
 
 
 class SignalsCfg(StrictModel):
@@ -89,6 +94,11 @@ class PlanCfg(StrictModel):
     target_rr: float = Field(gt=0)
 
 
+class EvaluateCfg(StrictModel):
+    n_folds: int = Field(gt=1)
+    min_positive_fold_ratio: float = Field(gt=0, le=1)
+
+
 class LlmCfg(StrictModel):
     enabled: bool
     provider: str
@@ -111,6 +121,7 @@ class Config(StrictModel):
     backtest: BacktestCfg
     risk: RiskCfg
     plan: PlanCfg
+    evaluate: EvaluateCfg
     llm: LlmCfg
     output: OutputCfg
 

@@ -28,7 +28,15 @@ ENTRY_BAND = {
     "trend_continuation": (-0.2, 0.3),
     "momentum": (0.0, 0.5),
     "reversal": (0.0, 0.3),             # 規格未定義，比照 breakout（記於 NOTES.md）
+    # 研究引入的 detector：突破家族比照 breakout；均值回歸買在回檔附近
+    "week52_breakout": (0.0, 0.3),
+    "donchian55_breakout": (0.0, 0.3),
+    "squeeze_breakout": (0.0, 0.3),
+    "adx_trend": (0.0, 0.3),
+    "rsi2_pullback": (-0.2, 0.1),       # [close - 0.2*ATR, close + 0.1*ATR]
+    "double_seven": (-0.2, 0.1),
 }
+MEAN_REVERSION_DETECTORS = {"rsi2_pullback", "double_seven"}
 STOP_SWING_LOOKBACK = 20
 STOP_SWING_ATR_PAD = 0.5
 MAX_STOP_DISTANCE_FRAC = 0.12           # 停損距離不得超過 entry 的 12%
@@ -78,6 +86,25 @@ def _invalidation_for(detector: str, df: pd.DataFrame) -> tuple[str, dict]:
             {"type": "close_below_ma", "ma": SMA_FAST, "consecutive": 3},
         )
     if detector == "trend_continuation":
+        return (
+            "SMA20 跌破 SMA50",
+            {"type": "ma_cross_down", "fast": SMA_FAST, "slow": SMA_MID},
+        )
+    if detector in ("week52_breakout", "donchian55_breakout"):
+        from core.signals import TURTLE_N, WEEK52_N
+
+        n = WEEK52_N if detector == "week52_breakout" else TURTLE_N
+        level = float(donchian_high(df, n).iloc[-1])
+        return (
+            f"連續 2 根收盤跌回突破前 {n} 日高點 {level:.2f} 以下",
+            {"type": "close_below", "level": level, "consecutive": 2},
+        )
+    if detector in MEAN_REVERSION_DETECTORS:
+        return (
+            "連續 2 根收盤跌破 SMA200（均值回歸的多頭前提不成立）",
+            {"type": "close_below_ma", "ma": SMA_SLOW, "consecutive": 2},
+        )
+    if detector == "adx_trend":
         return (
             "SMA20 跌破 SMA50",
             {"type": "ma_cross_down", "fast": SMA_FAST, "slow": SMA_MID},

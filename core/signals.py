@@ -13,7 +13,16 @@ from typing import TYPE_CHECKING
 import numpy as np
 import pandas as pd
 
-from core.indicators import atr, donchian_high, rsi, sma, swing_high, volume_ma
+from core.indicators import (
+    atr,
+    bollinger,
+    dmi,
+    donchian_high,
+    rsi,
+    sma,
+    swing_high,
+    volume_ma,
+)
 
 if TYPE_CHECKING:
     from core.backtest import EdgeStats
@@ -38,6 +47,22 @@ VOL_REGIME_WINDOW = 60
 GAP_ATR_MULT = 3.0
 GAP_LOOKBACK = 5
 REVERSAL_RSI_LEVEL = 30.0
+
+# --- 研究引入的 detector 常數（典型參數照文獻，出處見 docs/strategy-research.md）---
+SMA_SHORT = 5
+RSI2_N = 2                      # Connors RSI-2（Wilder smoothing）
+RSI2_ENTRY = 5.0                # 書中積極版門檻（<5 優於 <10）
+CUMRSI_ENTRY = 35.0             # Cumulative RSI(2) 兩日和 < 35
+DOUBLE7_N = 7                   # Double 7s：7 日收盤新低
+WEEK52_N = 252                  # 52 週高點（George & Hwang 2004）
+TURTLE_N = 55                   # 海龜 System 2：55 日 Donchian 突破
+ADX_N = 14                      # Wilder 原典週期
+ADX_TREND_THRESHOLD = 25.0      # 現代慣例門檻（Wilder 用 20-25）
+SQUEEZE_BB_N = 20               # Bollinger squeeze：BB(20,2)
+SQUEEZE_BB_MULT = 2.0
+SQUEEZE_BW_WINDOW = 125         # 帶寬 125 日新低（Bollinger「六個月最低」）
+SQUEEZE_RECENT_BARS = 5         # squeeze 出現在近 5 根內即算
+SQUEEZE_VOL_MA_N = 50
 
 # 評分尺度：expectancy -0.2R 對應 0 分、+0.6R 對應 100 分
 EDGE_SCORE_FLOOR_R = -0.2
@@ -141,12 +166,117 @@ def detect_reversal(df: pd.DataFrame, cfg) -> DetectorResult:
     return DetectorResult(fired=fired, conditions=conds, weights=weights)
 
 
+# --- 研究引入的 detector（詳細出處與取捨：docs/strategy-research.md）------------
+# 注意：本系統統一用 ATR 停損 + RR 目標的回測引擎；Connors 原版「不設停損」的
+# 統計數字因此不可直接比較（刻意偏保守的偏離，記於 NOTES.md）。
+
+
+def detect_rsi2_pullback(df: pd.DataFrame, cfg) -> DetectorResult:
+    """Connors RSI-2：長期多頭中的極短線超賣拉回（Short Term Trading Strategies That Work, 2008）。"""
+    close = df["close"]
+    r2 = rsi(close, RSI2_N)
+    conds = {
+        "trend_200": _b(close > sma(close, SMA_SLOW)),
+        "rsi2_extreme": _b(r2 < RSI2_ENTRY),
+        "cum_rsi2_low": _b(r2 + r2.shift(1) < CUMRSI_ENTRY),
+        "short_term_pullback": _b(close < sma(close, SMA_SHORT)),
+    }
+    weights = {"trend_200": 0.35, "rsi2_extreme": 0.35,
+               "cum_rsi2_low": 0.20, "short_term_pullback": 0.10}
+    fired = conds["trend_200"] & conds["rsi2_extreme"]
+    return DetectorResult(fired=fired, conditions=conds, weights=weights)
+
+
+def detect_double_seven(df: pd.DataFrame, cfg) -> DetectorResult:
+    """Connors Double 7s：200 日均線上的 7 日收盤新低（同書）。"""
+    close = df["close"]
+    conds = {
+        "trend_200": _b(close > sma(close, SMA_SLOW)),
+        "seven_day_low": _b(close <= close.rolling(DOUBLE7_N).min()),
+        "mid_term_bull": _b(sma(close, SMA_MID) > sma(close, SMA_SLOW)),
+    }
+    weights = {"trend_200": 0.40, "seven_day_low": 0.40, "mid_term_bull": 0.20}
+    fired = conds["trend_200"] & conds["seven_day_low"]
+    return DetectorResult(fired=fired, conditions=conds, weights=weights)
+
+
+def detect_week52_breakout(df: pd.DataFrame, cfg) -> DetectorResult:
+    """52 週高點突破（George & Hwang, JoF 2004 的單一標的改編版）。"""
+    close, volume = df["close"], df["volume"]
+    dh = donchian_high(df, WEEK52_N)
+    conds = {
+        "new_52w_high": _b(close > dh),
+        "volume_expansion": _b(volume > BREAKOUT_VOL_MULT * volume_ma(df, VOL_MA_N)),
+        "long_term_bull": _b(sma(close, SMA_MID) > sma(close, SMA_SLOW)),
+        "base_near_high": _b(close.shift(1) >= 0.95 * dh),
+    }
+    weights = {"new_52w_high": 0.40, "volume_expansion": 0.25,
+               "long_term_bull": 0.20, "base_near_high": 0.15}
+    fired = conds["new_52w_high"].copy()
+    return DetectorResult(fired=fired, conditions=conds, weights=weights)
+
+
+def detect_donchian55_breakout(df: pd.DataFrame, cfg) -> DetectorResult:
+    """海龜 System 2：突破前 55 日高點（Faith, Way of the Turtle）。"""
+    close, volume = df["close"], df["volume"]
+    conds = {
+        "break_55d_high": _b(close > donchian_high(df, TURTLE_N)),
+        "long_term_bull": _b(sma(close, SMA_MID) > sma(close, SMA_SLOW)),
+        "volume_expansion": _b(volume > BREAKOUT_VOL_MULT * volume_ma(df, VOL_MA_N)),
+        "above_sma200": _b(close > sma(close, SMA_SLOW)),
+    }
+    weights = {"break_55d_high": 0.45, "long_term_bull": 0.25,
+               "volume_expansion": 0.20, "above_sma200": 0.10}
+    fired = conds["break_55d_high"].copy()
+    return DetectorResult(fired=fired, conditions=conds, weights=weights)
+
+
+def detect_adx_trend(df: pd.DataFrame, cfg) -> DetectorResult:
+    """Wilder DMI：+DI 上穿 -DI 且 ADX>25（New Concepts, 1978）。"""
+    close = df["close"]
+    plus_di, minus_di, adx_s = dmi(df, ADX_N)
+    cross_up = (plus_di > minus_di) & (plus_di.shift(1) <= minus_di.shift(1))
+    conds = {
+        "di_cross_up": _b(cross_up),
+        "adx_strong": _b(adx_s > ADX_TREND_THRESHOLD),
+        "above_sma50": _b(close > sma(close, SMA_MID)),
+    }
+    weights = {"di_cross_up": 0.40, "adx_strong": 0.35, "above_sma50": 0.25}
+    fired = conds["di_cross_up"] & conds["adx_strong"]
+    return DetectorResult(fired=fired, conditions=conds, weights=weights)
+
+
+def detect_squeeze_breakout(df: pd.DataFrame, cfg) -> DetectorResult:
+    """Bollinger squeeze：帶寬 125 日新低後收盤突破上軌（Bollinger on Bollinger Bands, 2001）。"""
+    close, volume = df["close"], df["volume"]
+    lower, mid, upper = bollinger(close, SQUEEZE_BB_N, SQUEEZE_BB_MULT)
+    bandwidth = (upper - lower) / mid
+    squeeze_on = bandwidth <= bandwidth.rolling(SQUEEZE_BW_WINDOW).min()
+    recent_squeeze = _b(squeeze_on.rolling(SQUEEZE_RECENT_BARS).max())
+    conds = {
+        "recent_squeeze": recent_squeeze,
+        "break_upper_band": _b(close > upper),
+        "volume_expansion": _b(volume > BREAKOUT_VOL_MULT * volume_ma(df, SQUEEZE_VOL_MA_N)),
+        "trend_200": _b(close > sma(close, SMA_SLOW)),
+    }
+    weights = {"recent_squeeze": 0.35, "break_upper_band": 0.30,
+               "volume_expansion": 0.20, "trend_200": 0.15}
+    fired = conds["recent_squeeze"] & conds["break_upper_band"]
+    return DetectorResult(fired=fired, conditions=conds, weights=weights)
+
+
 DETECTORS = {
     "breakout": detect_breakout,
     "pullback": detect_pullback,
     "momentum": detect_momentum,
     "trend_continuation": detect_trend_continuation,
     "reversal": detect_reversal,
+    "rsi2_pullback": detect_rsi2_pullback,
+    "double_seven": detect_double_seven,
+    "week52_breakout": detect_week52_breakout,
+    "donchian55_breakout": detect_donchian55_breakout,
+    "adx_trend": detect_adx_trend,
+    "squeeze_breakout": detect_squeeze_breakout,
 }
 
 

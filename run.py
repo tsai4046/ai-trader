@@ -429,6 +429,42 @@ def cmd_close(args) -> int:
     return 0
 
 
+def cmd_evaluate(args) -> int:
+    """多輪回測驗證：全部 detector × watchlist，walk-forward 分段 + 穩健性門檻。"""
+    from core.datasource import load_universe
+    from core.evaluate import evaluate_universe, save_evaluation
+    from core.report import render_evaluation_report
+
+    cfg = _load_cfg()
+    universe = load_universe(cfg, offline=args.offline, market=args.market)
+    if not universe:
+        print("watchlist 為空", file=sys.stderr)
+        return 1
+    detectors = args.detectors.split(",") if args.detectors else None
+    report = evaluate_universe(cfg, universe,
+                               lambda e: _fetch(e, cfg, args.offline),
+                               detectors=detectors)
+    save_evaluation(report)
+
+    print(f"{'detector':<22}{'標的':>4}{'穩健':>4}{'n':>6}{'期望值':>8}"
+          f"{'勝率':>8}{'穩定度':>8}{'分數':>8}  推薦")
+    for d in report["detectors"]:
+        print(f"{d['detector']:<22}{d['symbols_evaluated']:>4}"
+              f"{d['symbols_robust']:>4}{d['pooled_n']:>6}"
+              f"{d['pooled_expectancy']:>7.2f}R{d['pooled_win_rate']*100:>7.1f}%"
+              f"{d['stability']*100:>7.1f}%{d['score']:>8.3f}  "
+              f"{'✔' if d['recommended'] else '—'}")
+    if report["skipped"]:
+        print(f"（{len(report['skipped'])} 筆略過：資料不足或抓取失敗）")
+    rec = report["recommended"]
+    print(f"通過穩健性門檻的策略：{', '.join(rec) if rec else '（無）'}")
+    print("要啟用請改 config.yaml 的 signals.enabled_detectors；"
+          "評估結果已寫入 data/evaluation.json，儀表板會顯示排行。")
+    path = render_evaluation_report(cfg, report)
+    print(f"HTML: {path}")
+    return 0
+
+
 def cmd_serve(args) -> int:
     from core.webui import serve
 
@@ -547,6 +583,12 @@ def main(argv=None) -> int:
 
     st = sub.add_parser("stats", help="從 journal + outcomes 產出績效統計")
     st.set_defaults(fn=cmd_stats)
+
+    ev = sub.add_parser("evaluate", help="多輪回測驗證所有 detector，產出策略排行")
+    ev.add_argument("--market", choices=["us", "tw"])
+    ev.add_argument("--offline", action="store_true")
+    ev.add_argument("--detectors", help="逗號分隔，預設全部")
+    ev.set_defaults(fn=cmd_evaluate)
 
     sv = sub.add_parser("serve", help="啟動本機管理台（追蹤清單 / 庫存 / 掃描）")
     sv.add_argument("--port", type=int, default=8787)

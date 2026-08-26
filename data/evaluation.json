@@ -1,0 +1,2070 @@
+{
+ "evaluated_at": "2026-08-26T02:32:43+00:00",
+ "n_folds": 4,
+ "universe": [
+  "SYN_TREND",
+  "SYN_BREAK",
+  "SYN_PULLBACK",
+  "SYN_FLAT",
+  "SYN_CRASH",
+  "SYN_SHORT"
+ ],
+ "detectors": [
+  {
+   "detector": "trend_continuation",
+   "symbols_evaluated": 5,
+   "symbols_robust": 2,
+   "pooled_n": 55,
+   "pooled_expectancy": 1.4833,
+   "pooled_win_rate": 0.9273,
+   "median_symbol_expectancy": 1.4607,
+   "stability": 0.9375,
+   "score": 1.0198,
+   "recommended": true
+  },
+  {
+   "detector": "pullback",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 35,
+   "pooled_expectancy": 1.6483,
+   "pooled_win_rate": 0.8857,
+   "median_symbol_expectancy": 1.6112,
+   "stability": 0.875,
+   "score": 0.9178,
+   "recommended": false
+  },
+  {
+   "detector": "donchian55_breakout",
+   "symbols_evaluated": 5,
+   "symbols_robust": 3,
+   "pooled_n": 61,
+   "pooled_expectancy": 1.4649,
+   "pooled_win_rate": 0.8853,
+   "median_symbol_expectancy": 1.5427,
+   "stability": 0.8125,
+   "score": 0.8964,
+   "recommended": true
+  },
+  {
+   "detector": "rsi2_pullback",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 31,
+   "pooled_expectancy": 1.497,
+   "pooled_win_rate": 0.7742,
+   "median_symbol_expectancy": 0.97,
+   "stability": 0.9286,
+   "score": 0.845,
+   "recommended": false
+  },
+  {
+   "detector": "week52_breakout",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 32,
+   "pooled_expectancy": 1.5826,
+   "pooled_win_rate": 0.9062,
+   "median_symbol_expectancy": 1.4427,
+   "stability": 0.8125,
+   "score": 0.7913,
+   "recommended": false
+  },
+  {
+   "detector": "breakout",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 6,
+   "pooled_expectancy": 2.5,
+   "pooled_win_rate": 1.0,
+   "median_symbol_expectancy": 2.5,
+   "stability": 1.0,
+   "score": 0.5769,
+   "recommended": false
+  },
+  {
+   "detector": "double_seven",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 39,
+   "pooled_expectancy": 0.6899,
+   "pooled_win_rate": 0.5641,
+   "median_symbol_expectancy": 0.6827,
+   "stability": 0.875,
+   "score": 0.399,
+   "recommended": false
+  },
+  {
+   "detector": "adx_trend",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 25,
+   "pooled_expectancy": 0.5958,
+   "pooled_win_rate": 0.44,
+   "median_symbol_expectancy": 1.5682,
+   "stability": 0.7333,
+   "score": 0.2427,
+   "recommended": false
+  },
+  {
+   "detector": "momentum",
+   "symbols_evaluated": 5,
+   "symbols_robust": 1,
+   "pooled_n": 39,
+   "pooled_expectancy": 0.4226,
+   "pooled_win_rate": 0.5385,
+   "median_symbol_expectancy": 0.5457,
+   "stability": 0.6842,
+   "score": 0.1911,
+   "recommended": true
+  },
+  {
+   "detector": "squeeze_breakout",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 16,
+   "pooled_expectancy": 0.2709,
+   "pooled_win_rate": 0.4375,
+   "median_symbol_expectancy": 1.4012,
+   "stability": 0.6364,
+   "score": 0.0766,
+   "recommended": false
+  },
+  {
+   "detector": "reversal",
+   "symbols_evaluated": 5,
+   "symbols_robust": 0,
+   "pooled_n": 0,
+   "pooled_expectancy": 0.0,
+   "pooled_win_rate": 0.0,
+   "median_symbol_expectancy": 0.0,
+   "stability": 0.0,
+   "score": 0.0,
+   "recommended": false
+  }
+ ],
+ "per_symbol": [
+  {
+   "detector": "adx_trend",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 3,
+   "expectancy": 1.5682,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 2.0384,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 1.3994,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 1.2667,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 3,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=3<15"
+   ]
+  },
+  {
+   "detector": "breakout",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "donchian55_breakout",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 15,
+   "expectancy": 1.4554,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 1.516,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 4,
+     "expectancy": 1.8022,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 4,
+     "expectancy": 1.5224,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": 0.9961,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": true,
+   "reasons": []
+  },
+  {
+   "detector": "double_seven",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 7,
+   "expectancy": 1.2621,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 1.417,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 0.4259,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 1.3244,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=7<15"
+   ]
+  },
+  {
+   "detector": "momentum",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 3,
+   "expectancy": 0.7248,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 1.6178,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 0.1133,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 0.4432,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 3,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=3<15"
+   ]
+  },
+  {
+   "detector": "pullback",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 8,
+   "expectancy": 1.1875,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 2,
+     "expectancy": 1.417,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 1.5685,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 0.6782,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 1.0863,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=8<15"
+   ]
+  },
+  {
+   "detector": "reversal",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "rsi2_pullback",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 3,
+   "expectancy": 1.19,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 0.4854,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 1.5693,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 1.5153,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 3,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=3<15"
+   ]
+  },
+  {
+   "detector": "squeeze_breakout",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 3,
+   "expectancy": 1.4012,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 2.1061,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 0.4916,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 1.6058,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 3,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=3<15"
+   ]
+  },
+  {
+   "detector": "trend_continuation",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 15,
+   "expectancy": 1.1618,
+   "win_rate": 0.9333,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 2.2675,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 4,
+     "expectancy": 1.1575,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 4,
+     "expectancy": 0.3952,
+     "win_rate": 0.75
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": 1.1035,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": true,
+   "reasons": []
+  },
+  {
+   "detector": "week52_breakout",
+   "symbol": "SYN_TREND",
+   "market": "us",
+   "n": 7,
+   "expectancy": 1.1417,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": 1.8146,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 1.0857,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 1.2442,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 0.7588,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=7<15"
+   ]
+  },
+  {
+   "detector": "adx_trend",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 1,
+   "expectancy": 2.5,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 1,
+   "active_folds": 1,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=1<15"
+   ]
+  },
+  {
+   "detector": "breakout",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 6,
+   "expectancy": 2.5,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=6<15"
+   ]
+  },
+  {
+   "detector": "donchian55_breakout",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 17,
+   "expectancy": 2.1731,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 4,
+     "expectancy": 1.5387,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 4,
+     "expectancy": 2.072,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 4,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 5,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": true,
+   "reasons": []
+  },
+  {
+   "detector": "double_seven",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 12,
+   "expectancy": 0.75,
+   "win_rate": 0.5,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 0.1667,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 1.3333,
+     "win_rate": 0.6667
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 0.1667,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": 1.3333,
+     "win_rate": 0.6667
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=12<15"
+   ]
+  },
+  {
+   "detector": "momentum",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 9,
+   "expectancy": 1.2258,
+   "win_rate": 0.7778,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 0.75,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 1.5187,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": 0.4983,
+     "win_rate": 0.6667
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=9<15"
+   ]
+  },
+  {
+   "detector": "pullback",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 7,
+   "expectancy": 2.0349,
+   "win_rate": 0.8571,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": -0.7555,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=7<15"
+   ]
+  },
+  {
+   "detector": "reversal",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "rsi2_pullback",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 12,
+   "expectancy": 0.75,
+   "win_rate": 0.5,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 0.1667,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 1.3333,
+     "win_rate": 0.6667
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 0.1667,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": 1.3333,
+     "win_rate": 0.6667
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=12<15"
+   ]
+  },
+  {
+   "detector": "squeeze_breakout",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 1,
+   "expectancy": 2.0004,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 2.0004,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 1,
+   "active_folds": 1,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=1<15"
+   ]
+  },
+  {
+   "detector": "trend_continuation",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 19,
+   "expectancy": 1.9589,
+   "win_rate": 0.9474,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 4,
+     "expectancy": 1.2483,
+     "win_rate": 0.75
+    },
+    {
+     "fold": 2,
+     "n": 5,
+     "expectancy": 2.2891,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 5,
+     "expectancy": 2.078,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 5,
+     "expectancy": 2.078,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": true,
+   "reasons": []
+  },
+  {
+   "detector": "week52_breakout",
+   "symbol": "SYN_BREAK",
+   "market": "us",
+   "n": 10,
+   "expectancy": 2.5,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=10<15"
+   ]
+  },
+  {
+   "detector": "adx_trend",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 3,
+   "expectancy": 2.5,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 3,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=3<15"
+   ]
+  },
+  {
+   "detector": "breakout",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "donchian55_breakout",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 21,
+   "expectancy": 1.63,
+   "win_rate": 0.9524,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 5,
+     "expectancy": 1.3031,
+     "win_rate": 0.8
+    },
+    {
+     "fold": 2,
+     "n": 5,
+     "expectancy": 1.7047,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 5,
+     "expectancy": 1.7852,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 6,
+     "expectancy": 1.711,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": true,
+   "reasons": []
+  },
+  {
+   "detector": "double_seven",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 13,
+   "expectancy": 0.6154,
+   "win_rate": 0.4615,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 1.3333,
+     "win_rate": 0.6667
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 1.3333,
+     "win_rate": 0.6667
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 0.1667,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": -0.125,
+     "win_rate": 0.25
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=13<15"
+   ]
+  },
+  {
+   "detector": "momentum",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 15,
+   "expectancy": 0.4,
+   "win_rate": 0.4,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 0.1667,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 2,
+     "n": 4,
+     "expectancy": 0.75,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 3,
+     "n": 4,
+     "expectancy": -0.125,
+     "win_rate": 0.25
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": 0.75,
+     "win_rate": 0.5
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": true,
+   "reasons": []
+  },
+  {
+   "detector": "pullback",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 13,
+   "expectancy": 2.5,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=13<15"
+   ]
+  },
+  {
+   "detector": "reversal",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "rsi2_pullback",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 13,
+   "expectancy": 2.5,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": 2.5,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=13<15"
+   ]
+  },
+  {
+   "detector": "squeeze_breakout",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 2,
+   "expectancy": 1.8543,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 1.762,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 1.9465,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 2,
+   "active_folds": 2,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=2<15"
+   ]
+  },
+  {
+   "detector": "trend_continuation",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 14,
+   "expectancy": 1.7597,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 1.8146,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 4,
+     "expectancy": 1.7703,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 1.6744,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 4,
+     "expectancy": 1.7718,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=14<15"
+   ]
+  },
+  {
+   "detector": "week52_breakout",
+   "symbol": "SYN_PULLBACK",
+   "market": "us",
+   "n": 11,
+   "expectancy": 1.7437,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 2,
+     "expectancy": 1.7725,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": 1.7797,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": 1.6083,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": 1.8239,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 4,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=11<15"
+   ]
+  },
+  {
+   "detector": "adx_trend",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 12,
+   "expectancy": -0.0619,
+   "win_rate": 0.0833,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 3,
+     "expectancy": 0.0173,
+     "win_rate": 0.3333
+    },
+    {
+     "fold": 2,
+     "n": 3,
+     "expectancy": -0.0807,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 3,
+     "expectancy": -0.0885,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": -0.0957,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 1,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=12<15",
+    "期望值非正 -0.06R",
+    "僅 1/4 個時間分段為正（需 3）"
+   ]
+  },
+  {
+   "detector": "breakout",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "donchian55_breakout",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "double_seven",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "momentum",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 6,
+   "expectancy": -1.0,
+   "win_rate": 0.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 0,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=6<15",
+    "期望值非正 -1.00R",
+    "僅 0/4 個時間分段為正（需 3）"
+   ]
+  },
+  {
+   "detector": "pullback",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "reversal",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "rsi2_pullback",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "squeeze_breakout",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 9,
+   "expectancy": -0.7008,
+   "win_rate": 0.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 2,
+     "expectancy": -0.7607,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": -0.725,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": -0.6911,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 3,
+     "expectancy": -0.6512,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 0,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=9<15",
+    "期望值非正 -0.70R",
+    "僅 0/4 個時間分段為正（需 3）"
+   ]
+  },
+  {
+   "detector": "trend_continuation",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "week52_breakout",
+   "symbol": "SYN_FLAT",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "adx_trend",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 6,
+   "expectancy": 0.1556,
+   "win_rate": 0.5,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": 0.1985,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": -0.5693,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 1.5888,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 0.1426,
+     "win_rate": 0.5
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=6<15"
+   ]
+  },
+  {
+   "detector": "breakout",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "donchian55_breakout",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 8,
+   "expectancy": -0.4553,
+   "win_rate": 0.25,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 2,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 0.1153,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": -0.2962,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": -0.6403,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 1,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=8<15",
+    "期望值非正 -0.46R",
+    "僅 1/4 個時間分段為正（需 3）"
+   ]
+  },
+  {
+   "detector": "double_seven",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 7,
+   "expectancy": 0.1531,
+   "win_rate": 0.4286,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 0.2438,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 0.2932,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 0.499,
+     "win_rate": 0.5
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=7<15"
+   ]
+  },
+  {
+   "detector": "momentum",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 6,
+   "expectancy": 0.5457,
+   "win_rate": 0.8333,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 1.2175,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 0.7544,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": 0.5424,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=6<15"
+   ]
+  },
+  {
+   "detector": "pullback",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 7,
+   "expectancy": 0.2067,
+   "win_rate": 0.5714,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": 1.1053,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 0.4826,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 0.6882,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": true,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=7<15",
+    "holdout 衰退"
+   ]
+  },
+  {
+   "detector": "reversal",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 0,
+   "expectancy": 0.0,
+   "win_rate": 0.0,
+   "folds": [],
+   "positive_folds": 0,
+   "active_folds": 0,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=0<15",
+    "期望值非正 0.00R",
+    "僅 0/0 個時間分段為正（需 1）"
+   ]
+  },
+  {
+   "detector": "rsi2_pullback",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 3,
+   "expectancy": 0.446,
+   "win_rate": 0.6667,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 1.1332,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": 0.671,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": -0.4662,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 2,
+   "active_folds": 3,
+   "decayed": true,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=3<15",
+    "holdout 衰退"
+   ]
+  },
+  {
+   "detector": "squeeze_breakout",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 1,
+   "expectancy": 0.729,
+   "win_rate": 1.0,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 3,
+     "n": 0,
+     "expectancy": 0.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": 0.729,
+     "win_rate": 1.0
+    }
+   ],
+   "positive_folds": 1,
+   "active_folds": 1,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=1<15"
+   ]
+  },
+  {
+   "detector": "trend_continuation",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 7,
+   "expectancy": 0.3288,
+   "win_rate": 0.7143,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": 1.1053,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 2,
+     "n": 2,
+     "expectancy": 0.9077,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 2,
+     "expectancy": 0.0901,
+     "win_rate": 0.5
+    },
+    {
+     "fold": 4,
+     "n": 2,
+     "expectancy": -0.3997,
+     "win_rate": 0.5
+    }
+   ],
+   "positive_folds": 3,
+   "active_folds": 4,
+   "decayed": true,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=7<15",
+    "holdout 衰退"
+   ]
+  },
+  {
+   "detector": "week52_breakout",
+   "symbol": "SYN_CRASH",
+   "market": "tw",
+   "n": 4,
+   "expectancy": -0.3825,
+   "win_rate": 0.25,
+   "folds": [
+    {
+     "fold": 1,
+     "n": 1,
+     "expectancy": -0.6571,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 2,
+     "n": 1,
+     "expectancy": 0.4077,
+     "win_rate": 1.0
+    },
+    {
+     "fold": 3,
+     "n": 1,
+     "expectancy": -1.0,
+     "win_rate": 0.0
+    },
+    {
+     "fold": 4,
+     "n": 1,
+     "expectancy": -0.2805,
+     "win_rate": 0.0
+    }
+   ],
+   "positive_folds": 1,
+   "active_folds": 4,
+   "decayed": false,
+   "robust": false,
+   "reasons": [
+    "樣本不足 n=4<15",
+    "期望值非正 -0.38R",
+    "僅 1/4 個時間分段為正（需 3）"
+   ]
+  }
+ ],
+ "skipped": [
+  {
+   "symbol": "SYN_SHORT",
+   "reason": "資料不足或抓取失敗"
+  }
+ ],
+ "recommended": [
+  "trend_continuation",
+  "donchian55_breakout",
+  "momentum"
+ ]
+}

@@ -52,6 +52,10 @@ plan:
   ttl_days: 5              # 計畫未進場的有效天數，逾期作廢
   target_rr: 2.5           # 實際計畫的目標 RR
 
+evaluate:
+  n_folds: 4                     # 策略評估：walk-forward 時間分段數
+  min_positive_fold_ratio: 0.6   # 分段期望值為正的比例門檻（穩健性）
+
 llm:
   enabled: false           # 預設關閉；先把規則層跑穩再開
   provider: anthropic

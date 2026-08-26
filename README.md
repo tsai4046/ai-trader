@@ -69,6 +69,31 @@ python run.py backtest --symbol NVDA   # 單獨看某檔各 detector 的 edge �
 - **需要人工確認（ABSTAIN）**：資料不足 / 訊號衝突 / 資料源故障，系統拒絕硬做決定的清單。
 - **持倉與計畫監控**：OPEN 部位距停損多遠、已持有 vs 預計天數；待執行計畫是否已失效/過期。
 
+## 策略評估（找出對你的清單真正有效的策略）
+
+系統內建 11 個 detector：規格原生 5 個 + 研究引入 6 個（Connors RSI-2、Double 7s、
+52 週高點突破、海龜 55 日突破、ADX 趨勢、Bollinger squeeze——出處與取捨見
+`docs/strategy-research.md`）。研究引入的**預設全部不啟用**。
+
+```bash
+python run.py evaluate            # 全部 detector × 你的 watchlist，多輪驗證
+```
+
+每個 detector×標的會做 walk-forward 時間分段（預設 4 段）驗證，「推薦」需同時滿足：
+樣本數達門檻、整體期望值為正、多數時間分段為正、holdout 未衰退——四者缺一即淘汰。
+結果印在終端機、寫入 `out/evaluate_*.html`，儀表板底部也會顯示排行。
+
+要啟用通過驗證的策略，手動編輯 `config.yaml`：
+
+```yaml
+signals:
+  enabled_detectors: [breakout, pullback, momentum, trend_continuation, donchian55_breakout]
+```
+
+系統**不會**自動啟用任何策略——評估是淘汰工具，最後一步永遠是人。
+評估不做參數搜尋（那是過擬合的捷徑）；`week52_breakout` 這類長回看策略
+建議把 `data.lookback_days` 調到 900 以上再評估。
+
 ## 本機管理台（最簡單的日常操作方式）
 
 ```bash

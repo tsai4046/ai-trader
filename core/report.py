@@ -342,6 +342,32 @@ def render_report(*, cfg, run_id: str, results: list[dict], portfolio,
         h.append('<div class="empty">目前無持倉、也無待執行計畫。</div>')
     h.append("</div>")
 
+    # 策略評估排行（有跑過 evaluate 才顯示）
+    from core.evaluate import load_evaluation
+
+    evaluation = load_evaluation()
+    if evaluation and evaluation.get("detectors"):
+        h.append('<div class="section"><h2>策略評估排行'
+                 f'<span style="font-weight:400; font-size:12px; color:var(--ink-muted)">'
+                 f'　walk-forward {evaluation.get("n_folds", "?")} 段驗證 · '
+                 f'{_esc(str(evaluation.get("evaluated_at", ""))[:16])}</span></h2>')
+        h.append('<table class="mini"><tr><th>detector</th><th>標的/穩健</th><th>n</th>'
+                 '<th>期望值</th><th>勝率</th><th>時段穩定度</th><th>分數</th><th>推薦</th></tr>')
+        for d in evaluation["detectors"]:
+            badge = ('<span style="color:var(--good-text); font-weight:650">✔ 推薦</span>'
+                     if d.get("recommended") else
+                     '<span style="color:var(--ink-muted)">未過門檻</span>')
+            h.append(
+                f'<tr><th>{_esc(d["detector"])}</th>'
+                f'<td>{d["symbols_evaluated"]} / {d["symbols_robust"]}</td>'
+                f'<td>{d["pooled_n"]}</td><td>{d["pooled_expectancy"]:.2f}R</td>'
+                f'<td>{d["pooled_win_rate"]*100:.1f}%</td>'
+                f'<td>{d["stability"]*100:.0f}%</td><td>{d["score"]:.3f}</td>'
+                f'<td>{badge}</td></tr>')
+        h.append('</table><div class="reasons">分數 = 收縮後期望值 × 時段穩定度；'
+                 '「推薦」需同時滿足樣本數、正期望、多數時段為正、holdout 未衰退。'
+                 '啟用與否由 config 的 enabled_detectors 決定，不會自動改變。</div></div>')
+
     # 底部
     signals_n = sum(1 for r in results if r["record"].get("detector"))
     sources = sorted({(r["record"].get("data") or {}).get("source") or "n/a" for r in results})
@@ -355,5 +381,65 @@ def render_report(*, cfg, run_id: str, results: list[dict], portfolio,
     out_dir = Path(cfg.output.html_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"memo_{now.strftime('%Y%m%d_%H%M')}.html"
+    path.write_text("".join(h), encoding="utf-8")
+    return str(path)
+
+
+def render_evaluation_report(cfg, evaluation: dict) -> str:
+    """獨立的策略評估報告：detector 排行 + 每檔標的的分段細節。"""
+    now = datetime.now().astimezone()
+    h = ['<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">',
+         '<meta name="viewport" content="width=device-width, initial-scale=1">',
+         '<title>策略評估報告</title>', f"<style>{CSS}</style></head><body>",
+         "<div class='wrap'>"]
+    h.append('<div class="statusbar"><div class="stat"><div class="k">策略評估報告</div>'
+             f'<div class="v" style="font-size:15px">{_esc(str(evaluation.get("evaluated_at", ""))[:16])}'
+             f'　walk-forward {evaluation.get("n_folds")} 段</div></div>'
+             f'<div class="stat"><div class="k">評估範圍</div>'
+             f'<div class="v" style="font-size:15px">{_esc(", ".join(evaluation.get("universe", [])))}</div></div></div>')
+
+    h.append('<div class="section"><h2>Detector 排行</h2>'
+             '<table class="mini"><tr><th>detector</th><th>標的/穩健</th><th>n</th>'
+             '<th>期望值</th><th>勝率</th><th>每檔中位數</th><th>時段穩定度</th>'
+             '<th>分數</th><th>推薦</th></tr>')
+    for d in evaluation.get("detectors", []):
+        badge = ('<span style="color:var(--good-text); font-weight:650">✔</span>'
+                 if d.get("recommended") else '—')
+        h.append(f'<tr><th>{_esc(d["detector"])}</th>'
+                 f'<td>{d["symbols_evaluated"]} / {d["symbols_robust"]}</td>'
+                 f'<td>{d["pooled_n"]}</td><td>{d["pooled_expectancy"]:.2f}R</td>'
+                 f'<td>{d["pooled_win_rate"]*100:.1f}%</td>'
+                 f'<td>{d["median_symbol_expectancy"]:.2f}R</td>'
+                 f'<td>{d["stability"]*100:.0f}%</td><td>{d["score"]:.3f}</td>'
+                 f'<td>{badge}</td></tr>')
+    h.append('</table></div>')
+
+    h.append('<div class="section"><h2>每檔明細</h2>'
+             '<table class="mini"><tr><th>標的</th><th>detector</th><th>n</th>'
+             '<th>期望值</th><th>勝率</th><th>正分段</th><th>穩健</th>'
+             '<th style="text-align:left">未過門檻原因</th></tr>')
+    per = sorted(evaluation.get("per_symbol", []),
+                 key=lambda e: (-int(e.get("robust", False)), -e.get("expectancy", 0)))
+    for e in per:
+        h.append(f'<tr><th>{_esc(e["symbol"])}</th><td>{_esc(e["detector"])}</td>'
+                 f'<td>{e["n"]}</td><td>{e["expectancy"]:.2f}R</td>'
+                 f'<td>{e["win_rate"]*100:.1f}%</td>'
+                 f'<td>{e["positive_folds"]}/{e["active_folds"]}</td>'
+                 f'<td>{"✔" if e["robust"] else "—"}</td>'
+                 f'<td style="text-align:left">{_esc("、".join(e.get("reasons", [])) or "—")}</td></tr>')
+    h.append('</table></div>')
+    if evaluation.get("skipped"):
+        h.append('<div class="abstain"><h2>略過</h2><table class="mini">')
+        for s in evaluation["skipped"]:
+            h.append(f'<tr><th>{_esc(s["symbol"])}</th>'
+                     f'<td style="text-align:left">{_esc(s["reason"])}</td></tr>')
+        h.append('</table></div>')
+    h.append('<div class="footer"><span>回測皆為單標的、無成本、無滑價的簡化模擬；'
+             '評估用於淘汰不穩健策略，不保證未來有效。</span></div>')
+    h.append("</div></body></html>")
+
+    out_dir = Path(cfg.output.html_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / f"evaluate_{now.strftime('%Y%m%d_%H%M')}.html"
     path.write_text("".join(h), encoding="utf-8")
     return str(path)

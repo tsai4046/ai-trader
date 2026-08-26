@@ -73,6 +73,41 @@ def realized_vol(s: pd.Series, n: int) -> pd.Series:
     return ret.rolling(n).std() * np.sqrt(TRADING_DAYS_PER_YEAR)
 
 
+def dmi(df: pd.DataFrame, n: int = 14) -> tuple[pd.Series, pd.Series, pd.Series]:
+    """Wilder DMI：回傳 (+DI, -DI, ADX)，全部 Wilder smoothing（ewm alpha=1/n）。"""
+    up = df["high"].diff()
+    dn = -df["low"].diff()
+    plus_dm = ((up > dn) & (up > 0)) * up
+    minus_dm = ((dn > up) & (dn > 0)) * dn
+    tr = _true_range(df)
+
+    def w(s: pd.Series) -> pd.Series:
+        return s.ewm(alpha=1.0 / n, adjust=False, min_periods=n).mean()
+
+    tr_s = w(tr)
+    plus_di = 100.0 * w(plus_dm) / tr_s
+    minus_di = 100.0 * w(minus_dm) / tr_s
+    dx = 100.0 * (plus_di - minus_di).abs() / (plus_di + minus_di)
+    adx_s = w(dx)
+    return plus_di, minus_di, adx_s
+
+
+def bollinger(s: pd.Series, n: int = 20, mult: float = 2.0
+              ) -> tuple[pd.Series, pd.Series, pd.Series]:
+    """回傳 (下軌, 中軌, 上軌)。std 用母體標準差（ddof=0，同多數平台實作）。"""
+    mid = s.rolling(n).mean()
+    sd = s.rolling(n).std(ddof=0)
+    return mid - mult * sd, mid, mid + mult * sd
+
+
+def keltner(df: pd.DataFrame, n: int = 20, mult: float = 1.5
+            ) -> tuple[pd.Series, pd.Series, pd.Series]:
+    """Keltner 通道：EMA(n) ± mult * ATR(n)。回傳 (下軌, 中軌, 上軌)。"""
+    mid = ema(df["close"], n)
+    a = atr(df, n)
+    return mid - mult * a, mid, mid + mult * a
+
+
 def swing_low(df: pd.DataFrame, lookback: int) -> pd.Series:
     """不含當根的前 lookback 根最低 low。"""
     return df["low"].rolling(lookback).min().shift(1)

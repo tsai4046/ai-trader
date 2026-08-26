@@ -97,6 +97,36 @@ def test_conflict_momentum_vs_reversal_abstains(syn, cfg):
     assert conflict is True and best is None
 
 
+def test_new_breakout_family_fires_on_syn_break(syn, cfg):
+    # 研究引入：52 週高點與海龜 55 日突破，在階梯上升+帶量突破情境的最後一根必觸發
+    for name in ("week52_breakout", "donchian55_breakout"):
+        res = run_detector(syn["SYN_BREAK"], name, cfg)
+        assert bool(res.fired.iloc[-1]) is True, name
+
+
+def test_double_seven_fires_on_syn_pullback(syn, cfg):
+    res = run_detector(syn["SYN_PULLBACK"], "double_seven", cfg)
+    assert bool(res.fired.iloc[-1]) is True
+
+
+def test_new_detectors_fire_somewhere_in_trend(syn, cfg):
+    # 事件型 detector（DI 交叉、squeeze 釋放、RSI2 超賣）不必在最後一根，
+    # 但在趨勢情境的歷史中必須有樣本可回測
+    for name in ("rsi2_pullback", "adx_trend", "squeeze_breakout"):
+        res = run_detector(syn["SYN_TREND"], name, cfg)
+        assert res.fired.any(), name
+
+
+def test_rsi2_pullback_requires_uptrend(cfg):
+    # 沒有 200 日多頭濾網就不准觸發：用下跌情境驗證
+    from core.datasource import SyntheticProvider
+
+    df = SyntheticProvider().fetch("SYN_CRASH", 500, "1d").df
+    res = run_detector(df, "rsi2_pullback", cfg)
+    tail = res.fired.iloc[-10:]          # 崩盤尾段 close < sma200 → 不得觸發
+    assert not tail.any()
+
+
 def test_resolve_picks_highest_score(syn, cfg):
     n = cfg.signals.min_samples + 5
     a = score_signal(syn["SYN_BREAK"], "breakout", _edge(n, 0.5), cfg)
