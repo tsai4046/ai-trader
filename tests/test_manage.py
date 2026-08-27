@@ -94,3 +94,40 @@ def test_render_page_smoke(mcfg):
         assert token in html
     assert "http://" not in html and "https://" not in html.replace(
         "https://127.0.0.1", "")   # 頁面不引用外部資源
+
+
+def test_page_shows_polling_script_while_scanning(mcfg):
+    """掃描中：頁面要有計時器與自動輪詢，使用者不必自己猜什麼時候好。"""
+    import core.webui as webui
+
+    original = dict(webui.SCAN_STATE)
+    try:
+        webui.SCAN_STATE.update(running=True, started_at=1_700_000_000.0,
+                                summary="", returncode=None)
+        html = webui.render_page(mcfg)
+        assert "掃描中" in html
+        assert 'id="elapsed"' in html          # 計時器
+        assert "location.reload()" in html     # 完成後自動重整
+        assert "/status" in html               # 輪詢端點
+        assert "1700000000" in html            # 起始時間傳給前端
+    finally:
+        webui.SCAN_STATE.clear()
+        webui.SCAN_STATE.update(original)
+
+
+def test_page_shows_summary_with_duration_when_done(mcfg):
+    import core.webui as webui
+
+    original = dict(webui.SCAN_STATE)
+    try:
+        webui.SCAN_STATE.update(running=False, returncode=0,
+                                summary="2 核准 / 1 觀察 / 0 拒絕 / 1 需人工確認",
+                                started_at=1_000.0, finished_at=1_095.0)
+        html = webui.render_page(mcfg)
+        assert "上次掃描完成" in html
+        assert "耗時 1 分 35 秒" in html
+        assert "跑一輪掃描" in html             # 按鈕回復可按
+        assert 'id="elapsed"' not in html      # 不再輪詢
+    finally:
+        webui.SCAN_STATE.clear()
+        webui.SCAN_STATE.update(original)

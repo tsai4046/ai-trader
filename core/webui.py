@@ -7,6 +7,7 @@ from __future__ import annotations
 import html
 import subprocess
 import sys
+import time
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -18,7 +19,8 @@ from core.config import ConfigError, load_config
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MAX_FORM_BYTES = 64 * 1024
 
-SCAN_STATE: dict = {"running": False, "market": "", "summary": "", "returncode": None}
+SCAN_STATE: dict = {"running": False, "market": "", "summary": "",
+                    "returncode": None, "started_at": 0.0, "finished_at": 0.0}
 _scan_lock = threading.Lock()
 
 
@@ -39,6 +41,7 @@ def _run_scan(market: str) -> None:
     except Exception as e:
         SCAN_STATE.update(returncode=-1, summary=f"掃描執行失敗: {e}")
     finally:
+        SCAN_STATE["finished_at"] = time.time()
         SCAN_STATE["running"] = False
 
 
@@ -77,6 +80,11 @@ button.danger { border-color: #d03b3b; background: transparent; color: #d03b3b;
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px;
           flex-wrap: wrap; }
 a { color: #2a78d6; } a:hover { color: #1c5cab; }
+button:disabled { background: #898781; border-color: #898781; cursor: progress; }
+.spinner { display: inline-block; width: 11px; height: 11px; margin-right: 7px;
+           vertical-align: -1px; border: 2px solid rgba(255,255,255,0.45);
+           border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 """
 
 
@@ -95,7 +103,9 @@ def render_page(cfg, msg: str = "", err: str = "") -> str:
     if latest_memo:
         h.append('<a href="/memo" target="_blank">開啟最新備忘錄</a>　')
     if SCAN_STATE["running"]:
-        h.append('<button disabled>掃描中…（完成後重新整理）</button>')
+        started = SCAN_STATE.get("started_at") or time.time()
+        h.append(f'<button disabled id="scanbtn" data-started="{started:.0f}">'
+                 f'<span class="spinner"></span>掃描中 <span id="elapsed">0:00</span></button>')
     else:
         h.append('<form class="inline" method="post" action="/scan">'
                  '<select name="market"><option value="">全市場</option>'
@@ -109,7 +119,11 @@ def render_page(cfg, msg: str = "", err: str = "") -> str:
         h.append(f'<div class="err">{_esc(err)}</div>')
     if not SCAN_STATE["running"] and SCAN_STATE["summary"]:
         ok = SCAN_STATE["returncode"] == 0
-        h.append(f'<div class="{"msg" if ok else "err"}"><b>上次掃描</b><br>'
+        took = SCAN_STATE.get("finished_at", 0) - SCAN_STATE.get("started_at", 0)
+        took_txt = f"（耗時 {int(took // 60)} 分 {int(took % 60)} 秒）" if took > 0 else ""
+        h.append(f'<div class="{"msg" if ok else "err"}">'
+                 f'<b>{"上次掃描完成" if ok else "上次掃描失敗"}</b>'
+                 f'<span class="muted">{took_txt}</span><br>'
                  f'<pre style="margin:4px 0; white-space:pre-wrap">{_esc(SCAN_STATE["summary"])}</pre></div>')
 
     # 追蹤清單
@@ -163,6 +177,28 @@ def render_page(cfg, msg: str = "", err: str = "") -> str:
              '儀表板持倉監控都會計入。平倉會自動算 R 與損益寫入 outcomes。</div>'
              "</div>")
 
+    if SCAN_STATE["running"]:
+        h.append("""<script>
+(function () {
+  var btn = document.getElementById('scanbtn');
+  if (!btn) return;
+  var started = parseInt(btn.dataset.started, 10) * 1000;
+  function tick() {
+    var s = Math.max(0, Math.floor((Date.now() - started) / 1000));
+    var el = document.getElementById('elapsed');
+    if (el) el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  }
+  tick();
+  setInterval(tick, 1000);
+  setInterval(function () {
+    fetch('/status', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!j.running) location.reload(); })
+      .catch(function () {});
+  }, 2000);
+})();
+</script>""")
+
     h.append('<div class="muted">此介面只在本機（127.0.0.1）提供服務。'
              '追蹤清單寫入 watchlist.yaml、庫存寫入 data/outcomes.jsonl。</div>')
     h.append("</div></body></html>")
@@ -206,6 +242,19 @@ class Handler(BaseHTTPRequestHandler):
         if url.path == "/":
             q = parse_qs(url.query)
             self._html(render_page(cfg, msg=q.get("msg", [""])[0], err=q.get("err", [""])[0]))
+        elif url.path == "/status":
+            import json as _json
+
+            body = _json.dumps({
+                "running": bool(SCAN_STATE["running"]),
+                "returncode": SCAN_STATE["returncode"],
+            }).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
         elif url.path == "/memo":
             memos = sorted(Path(cfg.output.html_dir).glob("memo_*.html"))
             if memos:
@@ -245,8 +294,9 @@ class Handler(BaseHTTPRequestHandler):
                     if SCAN_STATE["running"]:
                         self._redirect(err="掃描已在進行中")
                         return
-                    SCAN_STATE.update(running=True, summary="",
-                                      market=form.get("market", ""), returncode=None)
+                    SCAN_STATE.update(running=True, summary="", returncode=None,
+                                      market=form.get("market", ""),
+                                      started_at=time.time(), finished_at=0.0)
                 threading.Thread(target=_run_scan, args=(form.get("market", ""),),
                                  daemon=True).start()
                 self._redirect(msg="掃描已啟動，完成後重新整理本頁即可看到摘要")
