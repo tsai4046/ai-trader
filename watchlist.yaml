@@ -3,6 +3,26 @@ us:
   - {symbol: AMD,  sector: semiconductor}
   - {symbol: MSFT, sector: software}
 tw:
-  - {symbol: "2330", name: 台積電, sector: semiconductor}
-  - {symbol: "2454", name: 聯發科, sector: semiconductor}
-  - {symbol: "2317", name: 鴻海,   sector: hardware}
+  - {symbol: "2330", name: 台積電,   sector: semiconductor}
+  - {symbol: "2454", name: 聯發科,   sector: semiconductor}
+  - {symbol: "2317", name: 鴻海,     sector: hardware}
+  # --- 庫存股（2026-08-27 集保清單）---
+  - {symbol: "0050",   name: 元大台灣50,  sector: etf_market}
+  - {symbol: "006208", name: 富邦台50,    sector: etf_market}
+  - {symbol: "00692",  name: 富邦公司治理, sector: etf_market}
+  - {symbol: "1432",   name: 大魯閣,     sector: leisure}
+  - {symbol: "2301",   name: 光寶科,     sector: electronics}
+  - {symbol: "2308",   name: 台達電,     sector: electronics}
+  - {symbol: "2313",   name: 華通,       sector: pcb}
+  - {symbol: "2385",   name: 群光,       sector: electronics}
+  - {symbol: "2727",   name: 王品,       sector: consumer}
+  - {symbol: "2882",   name: 國泰金,     sector: financial}
+  - {symbol: "2885",   name: 元大金,     sector: financial}
+  - {symbol: "2887",   name: 台新新光,   sector: financial}
+  - {symbol: "3042",   name: 晶技,       sector: components}
+  - {symbol: "3711",   name: 日月光投控, sector: semiconductor}
+  - {symbol: "5009",   name: 榮剛,       sector: steel}
+  - {symbol: "5701",   name: 劍湖山,     sector: leisure}
+  - {symbol: "6182",   name: 合晶,       sector: semiconductor}
+  - {symbol: "6213",   name: 聯茂,       sector: pcb}
+  - {symbol: "6526",   name: 達發,       sector: semiconductor}
